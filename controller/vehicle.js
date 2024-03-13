@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Vehicle = require('../model/vehicleModel')
-
+const cloudinary = require("../helper/imageUploader")
 
 //get all vehicles
 exports.getVehicles = (req, res)=>{
@@ -19,11 +19,13 @@ exports.getVehicles = (req, res)=>{
 
 
 //add new vehicle
-exports.createVehicle = (req, res)=>{
+exports.createVehicle = async(req, res)=>{
     const {made, model, images, price, age, location, fuel, transmition, ac, reverse_camera, description, owner, tel} = req.body
     const imageArray = []
     for(var i=0; i<req.files.length; i++){
-        imageArray.push(req.files[i].path)
+        const result = await cloudinary.uploader.upload(req.files[i].path)
+        imageArray.push(result.url)
+        console.log(result)
     }
     console.log(imageArray)
     const vehicle = new Vehicle({
