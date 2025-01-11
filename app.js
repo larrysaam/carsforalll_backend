@@ -3,12 +3,15 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
+require('dotenv').config()
+
+
 
 const app = express()
 
 
 //connecting to mongodb atlas database (Cloud)
-mongoose.connect('mongodb+srv://Larrien:qwerty123456@cluster0.u7xnpo6.mongodb.net/carsforall?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(process.env.MONGODB)
 
 
 app.use(bodyParser.json())
